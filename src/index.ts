@@ -2,7 +2,7 @@ import type { Serve, Server, ServerWebSocket } from 'bun'
 
 import { Memoirist } from 'memoirist'
 import EventEmitter from 'eventemitter3'
-import type { Static, TSchema } from '@sinclair/typebox'
+import type { StaticDecode, TSchema } from '@sinclair/typebox'
 
 import { createTraceListener } from './trace'
 import type { Context } from './context'
@@ -3690,7 +3690,7 @@ export default class Elysia<
 		Decorators,
 		{
 			type: Prettify<
-				Definitions['type'] & { [name in Name]: Static<Model> }
+				Definitions['type'] & { [name in Name]: StaticDecode<Model> }
 			>
 			error: Definitions['error']
 		},
@@ -3708,7 +3708,7 @@ export default class Elysia<
 		{
 			type: Prettify<
 				Definitions['type'] & {
-					[key in keyof Recorder]: Static<Recorder[key]>
+					[key in keyof Recorder]: StaticDecode<Recorder[key]>
 				}
 			>
 			error: Definitions['error']
@@ -3729,7 +3729,7 @@ export default class Elysia<
 		BasePath,
 		Decorators,
 		{
-			type: { [x in keyof NewType]: Static<NewType[x]> }
+			type: { [x in keyof NewType]: StaticDecode<NewType[x]> }
 			error: Definitions['error']
 		},
 		ParentSchema,
@@ -4142,4 +4142,4 @@ export type {
 	Checksum
 } from './types'
 
-export type { Static, TSchema } from '@sinclair/typebox'
+export type { Static, StaticDecode, TSchema } from '@sinclair/typebox'

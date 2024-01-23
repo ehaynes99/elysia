@@ -1,7 +1,7 @@
 import type { Elysia } from '.'
 import type { Serve, Server, WebSocketHandler } from 'bun'
 
-import type { TSchema, TObject, Static, TAnySchema } from '@sinclair/typebox'
+import type { TSchema, TObject, StaticDecode, TAnySchema } from '@sinclair/typebox'
 import type { TypeCheck } from '@sinclair/typebox/compiler'
 
 import type { OpenAPIV3 } from 'openapi-types'
@@ -154,7 +154,7 @@ export type UnwrapSchema<
 > = Schema extends undefined
 	? unknown
 	: Schema extends TSchema
-	? Static<NonNullable<Schema>>
+	? StaticDecode<NonNullable<Schema>>
 	: Schema extends string
 	? Definitions extends Record<Schema, infer NamedSchema>
 		? NamedSchema

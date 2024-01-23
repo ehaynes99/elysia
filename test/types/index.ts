@@ -27,11 +27,17 @@ app.get('/', ({ headers, query, params, body, store }) => {
 	expectTypeOf<typeof store>().toEqualTypeOf<{}>()
 })
 
+const DateTime = t
+	.Transform(t.String())
+	.Decode(v => new Date(v))
+	.Encode(v => v.toISOString())
+
 app.model({
 	t: t.Object({
 		username: t.String(),
-		password: t.String()
-	})
+		password: t.String(),
+			dob: DateTime,
+	}),
 }).get(
 	'/',
 	({ headers, query, params, body, cookie }) => {
@@ -39,24 +45,28 @@ app.model({
 		expectTypeOf<{
 			username: string
 			password: string
+			dob: Date
 		}>().toEqualTypeOf<typeof body>()
 
 		// ? unwrap body type
 		expectTypeOf<{
 			username: string
 			password: string
+			dob: Date
 		}>().toEqualTypeOf<typeof query>()
 
 		// ? unwrap body type
 		expectTypeOf<{
 			username: string
 			password: string
+			dob: Date
 		}>().toEqualTypeOf<typeof params>()
 
 		// ? unwrap body type
 		expectTypeOf<{
 			username: string
 			password: string
+			dob: Date
 		}>().toEqualTypeOf<typeof headers>()
 
 		// ? unwrap cookie
@@ -64,6 +74,7 @@ app.model({
 			Record<string, Cookie<any>> & {
 				username: Cookie<string>
 				password: Cookie<string>
+				dob: Cookie<Date>
 			}
 		>().toEqualTypeOf<typeof cookie>()
 
